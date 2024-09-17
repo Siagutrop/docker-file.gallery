@@ -1,0 +1,11 @@
+version: "1.0"
+#file gallery Container
+  file:
+    image: siagutrop/file
+    container_name : file_gallery
+    hostname: file
+    ports:
+      - "80:80"
+    environment:
+      - TIMEZONE=Europe/Paris
+    restart: always
