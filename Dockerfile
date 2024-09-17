@@ -1,6 +1,10 @@
 #On choisit une debian
 FROM debian:12.5
 
+# Configurer l'encodage UTF-8 dans le conteneur
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+
 LABEL org.opencontainers.image.authors="raphael.martins.correia41@gmail.com"
 
 
