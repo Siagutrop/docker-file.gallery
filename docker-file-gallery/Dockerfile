@@ -1,7 +1,7 @@
 #On choisit une debian
 FROM debian:12.5
 
-LABEL org.opencontainers.image.authors="github@diouxx.be"
+LABEL org.opencontainers.image.authors="raphael.martins.correia41@gmail.com"
 
 
 #Ne pas poser de question à l'installation
