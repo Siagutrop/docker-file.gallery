@@ -2,14 +2,13 @@ version: '3'
 services:
   files-gallery:
     build:
-      context: .  # Utiliser le répertoire actuel pour le Dockerfile
+      context: .  # Utiliser le rÃ©pertoire actuel pour le Dockerfile
     container_name: files-gallery
     ports:
       - "80:80"  # Exposition du port 80
-      - "443:443"  # Exposition du port 443
     volumes:
       - ./app:/var/www/html  # Monter le code source dans le conteneur
     environment:
       PHP_VERSION: "8.3"
-      TIMEZONE: "Europe/Paris"  # Par exemple, tu peux spécifier le fuseau horaire
+      TIMEZONE: "Europe/Paris"  # Par exemple, tu peux spÃ©cifier le fuseau horaire
     command: /opt/file-start.sh  # Lancer le script
