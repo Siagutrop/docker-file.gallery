@@ -2,41 +2,37 @@
 
 # Variable de version PHP et dossier cible
 PHP_VERSION="8.3"
-FOLDER_WEB=/var/www/html/
+FOLDER_WEB="/var/www/html"
 APP_NAME="file_gallery"
 
-# URL pour télécharger File Gallery
+# URL pour tÃ©lÃ©charger File Gallery
 FILE_GALLERY_URL="https://cdn.jsdelivr.net/npm/files.photo.gallery/index.php"
 
 # Configuration du fuseau horaire
 if [[ -z "${TIMEZONE}" ]]; then 
     echo "TIMEZONE is unset"; 
 else 
-    echo "date.timezone = \"$TIMEZONE\"" > /etc/php/${PHP_VERSION}/apache2/conf.d/timezone.ini;
-    echo "date.timezone = \"$TIMEZONE\"" > /etc/php/${PHP_VERSION}/cli/conf.d/timezone.ini;
+    echo "date.timezone = \"$TIMEZONE\"" > /usr/local/etc/php/conf.d/timezone.ini;
 fi
 
 # Activer session.cookie_httponly
-sed -i 's,session.cookie_httponly = *\(on\|off\|true\|false\|0\|1\)\?,session.cookie_httponly = on,gi' /etc/php/${PHP_VERSION}/apache2/php.ini
+sed -i 's,session.cookie_httponly = *\(on\|off\|true\|false\|0\|1\)\?,session.cookie_httponly = on,gi' /usr/local/etc/php/php.ini
 
-# Télécharger et installer File Gallery si non présent
-if [ ! -f "${FOLDER_WEB}${APP_NAME}/index.php" ]; then
+# TÃ©lÃ©charger et installer File Gallery si non prÃ©sent
+if [ ! -f "${FOLDER_WEB}/index.php" ]; then
     echo "Downloading File Gallery..."
-    mkdir -p ${FOLDER_WEB}${APP_NAME}
-    wget -O ${FOLDER_WEB}${APP_NAME}/index.php ${FILE_GALLERY_URL}
-    chown -R www-data:www-data ${FOLDER_WEB}${APP_NAME}
+    wget -O ${FOLDER_WEB}/index.php ${FILE_GALLERY_URL}
+    chown -R www-data:www-data ${FOLDER_WEB}
 else
     echo "File Gallery is already installed"
 fi
 
-# Définir ServerName pour éviter l'avertissement
-echo "ServerName localhost" >> /etc/apache2/apache2.conf
-
 # Configurer Apache pour pointer directement vers le dossier file_gallery
-echo -e "<VirtualHost *:80>\n\tDocumentRoot /var/www/html/${APP_NAME}\n\n\t<Directory /var/www/html/${APP_NAME}>\n\t\tAllowOverride All\n\t\tRequire all granted\n\t</Directory>\n\n\tErrorLog /var/log/apache2/error-${APP_NAME}.log\n\tLogLevel warn\n\tCustomLog /var/log/apache2/access-${APP_NAME}.log combined\n</VirtualHost>" > /etc/apache2/sites-available/000-default.conf
+echo -e "<VirtualHost *:80>\n\tDocumentRoot /var/www/html\n\n\t<Directory /var/www/html>\n\t\tAllowOverride All\n\t\tRequire all granted\n\t</Directory>\n\n\tErrorLog /var/log/apache2/error.log\n\tLogLevel warn\n\tCustomLog /var/log/apache2/access.log combined\n</VirtualHost>" > /etc/apache2/sites-available/000-default.conf
 
-# Activer le module rewrite (sans redémarrage d'Apache)
+# Activer le module rewrite (sans redÃ©marrage d'Apache)
 a2enmod rewrite
 
-# Démarrer Apache au premier plan
-exec /usr/sbin/apache2ctl -D FOREGROUND
+# DÃ©marrer Apache au premier plan
+exec apache2-foreground
+
