@@ -18,6 +18,7 @@ RUN apt update \
 && sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list' \
 && apt update \
 && apt install --yes --no-install-recommends \
+nano \
 apache2 \
 php8.3 \
 php8.3-mysql \
@@ -33,6 +34,7 @@ php8.3-intl \
 php8.3-zip \
 php8.3-bz2 \
 php8.3-redis \
+ffmpeg \
 cron \
 jq \
 libldap-2.5-0 \
@@ -48,4 +50,4 @@ RUN chmod +x /opt/file-start.sh
 ENTRYPOINT ["/opt/file-start.sh"]
 
 #Exposition des ports
-EXPOSE 80 443
+EXPOSE 80
