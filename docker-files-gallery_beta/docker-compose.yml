@@ -5,6 +5,7 @@ services:
     container_name: file_gallery_app
     volumes:
       - ./data:/var/www/html/
+      - ./data:/var/www/html/file_gallery/data
     ports:
       - "8080:80"
     environment:
