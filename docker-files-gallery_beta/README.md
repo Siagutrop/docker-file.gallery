@@ -94,6 +94,8 @@ TIMEZONE='Europe/Paris'
 Building the Docker Image Manually
 If you want to build the Docker image manually, run the following command:
 ```
+Building the Docker Image Manually
+If you want to build the Docker image manually, run the following command:
 
 ```bash
 docker build -t siagutrop/file-gallery .
